@@ -14,11 +14,11 @@ router.post('/', async (req, res) => {
     status: 'ACTIVE'
   });
 
-  newTenant.save((err, data) => {
+  newTenant.save((err, payload) => {
     res.json({
       status: 200,
       message: 'New tenant created.',
-      data
+      payload
     });
   });
 });

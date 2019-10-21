@@ -1,30 +1,49 @@
 const express = require('express');
-const internalUsersModel = require('../db/internalUsers');
+const usersModel = require('../db/internalUsers');
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/create', async (req, res) => {
   const { username, password } = req.body;
 
-  const newInternalUser = new internalUsersModel({
+  const newInternalUser = new usersModel({
     username,
     password,
     status: 'ACTIVE'
   });
 
-  newInternalUser.save((err, data) => {
+  newInternalUser.save((err, payload) => {
     res.json({
       status: 200,
       message: 'New user created.',
-      data
+      payload
     });
   });
 });
 
-router.get('/', async (req, res) => {
-  const internalUsers = await internalUsersModel.find();
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
 
-  res.json(internalUsers);
+  const payload = await usersModel.findOne({ username, password });
+
+  if (payload) {
+    res.json({
+      status: 200,
+      message: 'Log in successfuly.',
+      payload
+    });
+  } else {
+    res.json({
+      status: 400,
+      message: 'Error login encountered.'
+    });
+  }
+});
+
+router.get('/', async (req, res) => {
+  const users = await usersModel.find();
+
+  res.json(users);
 });
 
 module.exports = router;

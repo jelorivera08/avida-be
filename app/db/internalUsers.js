@@ -1,11 +1,11 @@
 const { mongoose } = require('./index');
 
-const internalUsersSchema = new mongoose.Schema({
+const usersSchema = new mongoose.Schema({
   username: String,
   password: String,
   status: String
 });
 
-const internalUsersModel = mongoose.model('Tenant', internalUsersSchema);
+const usersModel = mongoose.model('Users', usersSchema);
 
-module.exports = internalUsersModel;
+module.exports = usersModel;
